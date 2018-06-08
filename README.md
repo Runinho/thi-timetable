@@ -1,5 +1,6 @@
 # thi-timetable
 *Dies ist keine Offizielle App der Teschnischen Hochschule Ingolstadt.*
+
 Progressiv Web App in React mit der funktionalität der THI App nur in gut. 
 
 ## Ziel
