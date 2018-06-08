@@ -26,9 +26,15 @@
   "proxy": {
     "/primuss": {
       "target": "https://www3.primuss.de/stpl",
-      "pathRewrite": {"^/primuss" : ""},
+      "pathRewrite": {
+        "^/primuss": ""
+      },
       "changeOrigin": true,
       "logLevel": "debug"
     }
+  },
+  "devDependencies": {
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.3"
   }
 }
