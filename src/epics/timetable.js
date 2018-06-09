@@ -39,20 +39,29 @@ export const timetableEpic = (action$, store) =>
             mode:'calendar',
           })))
         }),
-        switchMap((data) => {
-          console.log(data);
-          if(data.status === 200){
-            if(data.request.responseURL.toString().includes('login.php?')){
+        switchMap((result) => {
+          console.log(result);
+          if(result.status === 200){
+            if(result.request.responseURL.toString().includes('login.php?')){
               // need new session.
               return of({type: 'SESSION_INVALID'});
             }else{
-              return of({type: 'TIMETABLE_DATA_LOADED', payload: data.data});
+              // merge events
+              const data = result.data;
+              const events = [];
+              for(let key of Object.keys(data).filter((key) => key.startsWith('events'))){
+                console.log(key);
+                events.push(...data[key]);
+                delete data[key];
+              }
+              data.events = events;
+              return of({type: 'TIMETABLE_DATA_LOADED', payload: data});
             }
           } else {
             // something went wrong
             return of({type: 'HTTP_ERROR',
             payload: {message: 'error when loading table. Check Internet Connection.', 
-              request: data}});
+              request: result}});
           }
         })
       )
