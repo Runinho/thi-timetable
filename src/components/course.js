@@ -12,18 +12,22 @@ export function getPositon(time){
   return positon;
 }
 
-function getStyle(startTime, endTime){
+function getStyle(startTime, endTime, overlapping){
   const start = getPositon(startTime);
   const end = getPositon(endTime);
+  // TODO: Fix to work with more than 1 overlapping course
+  const width = 100 / (Math.min((overlapping.before + overlapping.after), 1) + 1)
   return {
     height: end - start,
     top: start,
+    width: 'calc(' + width + '% - 16px)',
+    left: (width * overlapping.before) + '%',
   }
 }
 
 const Course = (props) => {
   return (
-    <div className="course" style={getStyle(props.data[2], props.data[3])}>
+    <div className={"course " + (props.data[20].status ? 'canceled' : '') }  style={getStyle(props.data[2], props.data[3], props.data[23])}>
       <div className="firstLine">
         <div className="title">
           {props.data[20].fach_kurzform}

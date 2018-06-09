@@ -27,7 +27,7 @@
     "file-loader": "1.1.5",
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
-    "jest": "20.0.4",
+    "jest": "^23.1.0",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
@@ -71,6 +71,7 @@
   },
   "devDependencies": {
     "node-sass": "^4.9.0",
+    "react-test-renderer": "^16.4.0",
     "sass-loader": "^7.0.3"
   },
   "jest": {
@@ -92,7 +93,7 @@
       "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
     "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
+      "node_modules/(?!(jest-)?react-native|react-navigation)"
     ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web"

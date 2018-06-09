@@ -11,10 +11,19 @@ export const timetableEpic = (action$, store) =>
       .pipe(
         switchMap((action) => {
           const session = store.getState().login.session;
+          const data = store.getState().data.data;
+          const actions = [];
           if(session){
-            return of({type: 'LOAD_TIMETABLE_DATA', payload: session})
+            actions.push(of({type: 'LOAD_TIMETABLE_DATA', payload: session}));
           }
-          return of({type: 'NOACTION'})
+          if(data){
+            actions.push(of({type: 'TIMETABLE_DATA_LOADED', payload: data}));
+          }
+          if(actions. length > 0){
+            return merge(...actions);
+          }else{
+            return of({type: 'NOACTION'})
+          }
         })
       ),
     action$.ofType('LOAD_TIMETABLE_DATA')
@@ -55,7 +64,7 @@ export const timetableEpic = (action$, store) =>
                 delete data[key];
               }
               data.events = events;
-              return of({type: 'TIMETABLE_DATA_LOADED', payload: data});
+              return of({type: 'TIMETABLE_DATA_LOADED', payload: {timestamp: new Date(), data: data}});
             }
           } else {
             // something went wrong

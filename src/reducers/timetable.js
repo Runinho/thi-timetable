@@ -14,7 +14,7 @@ export default (state={data: loadDataFromLocalStorage()}, action) => {
       break;
     case 'TIMETABLE_DATA_LOADED':
       console.log('LOADED!');
-      const data = {timestamp: new Date(), data: action.payload};
+      const data = action.payload;
       localStorage.setItem('data', JSON.stringify(data));
       return {...state, data: data};
     default: 

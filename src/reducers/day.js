@@ -1,3 +1,13 @@
+/**
+ * Wherever the both events take place to the same time.
+ * 
+ * @param {event} a 
+ * @param {event} b 
+ */
+export function isOverlapping(a, b){
+  return (a[3] > b[2] && a[2] < b[3]) || (a[2] > b[2] && a[3] < b[3]) || (b[2] > a[2] && b[3] < a[3]);
+}
+
 function getEventsForDay(events, dateTime) {
   const currentDay = new Date(dateTime).setHours(0,0,0,0);
   const currentDayEnd = new Date(currentDay).setHours(24,0,0,0);
@@ -13,12 +23,30 @@ function getEventsForDay(events, dateTime) {
         a.push(b)
       }
       return a;
-    },[]);
-  console.log(uniqDay);
-  return uniqDay;
+    },[])
+  uniqDay.sort((b, a) => (new Date(a[3]) - new Date(a[2])) - (new Date(b[3]) - new Date(b[2])));
+  console.log('unsort:', uniqDay);
+  // calculate overlapping
+  const uniqDayWithOverlapping = uniqDay.map((event, index_a) => {
+    // find overlapping
+    const overlapping = uniqDay.reduce((acc, current, index_b) => {
+      if (index_a !== index_b && isOverlapping(event, current)){
+        if(index_b > index_a){
+          acc.after += 1;
+        } else {
+          acc.before += 1;
+        }
+      }
+      return acc;
+    }, {before: 0, after:0})
+    event[23] = overlapping;
+    return event;
+  })
+  console.log(uniqDayWithOverlapping);
+  return uniqDayWithOverlapping;
 }
 
-export default (state={days: {}, currentDay: new Date(2018,5,12,12,20,5)}, action) => {
+export default (state={days: {}, currentDay: new Date(2018,4,2,12,20,5)}, action) => {
   switch(action.type){
     case 'INIT':
       break;
@@ -32,7 +60,7 @@ export default (state={days: {}, currentDay: new Date(2018,5,12,12,20,5)}, actio
       break;
     case 'TIMETABLE_DATA_LOADED':
       const currentDay2 = new Date(state.currentDay).setHours(0,0,0,0);
-      const day = getEventsForDay(action.payload.events, state.currentDay);
+      const day = getEventsForDay(action.payload.data.events, state.currentDay);
       const days = {};
       days[currentDay2.toString()] = day;
       return {...state, days: days};

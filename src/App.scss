@@ -108,9 +108,24 @@ body{
     border-style: solid;
     border-width: 1px;
     border-radius: 4px;
-    width: calc(100% - 16px);;
     padding: 8px;
     box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .canceled{
+    border-color: mix($red, $light-grey, 25%);
+    //text-decoration: line-through $white;
+    background: repeating-linear-gradient(
+      -45deg,
+      mix($red, $light-grey, 25%),
+      mix($red, $light-grey, 25%) 10px,
+      $light-grey 10px,
+      $light-grey 20px
+    );
+    .title {
+      text-decoration: line-through $white;
+    }
   }
 
   .firstLine{
@@ -164,4 +179,15 @@ body{
     margin-left: $colloumn-width-left * 0.9 - $size / 2;
     margin-top: (-$size / 2) - 1px;
   }
+}
+
+.informationContainer{
+  position: relative;
+}
+
+.information{
+  color: $white;
+  position: absolute;
+  top: 0px;
+  left: $colloumn-width-left;
 }
