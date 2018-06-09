@@ -8,7 +8,7 @@ import { ENGINE_METHOD_ALL } from 'constants';
 
 export const loginEpic = (action$, store) =>
   merge(
-      action$.do((action) => console.log(action, store)).ofType('LOGIN_PRESSED')
+      action$.do((action) => console.log('action', action, 'state', store)).ofType('LOGIN_PRESSED')
         .pipe(
           switchMap((action) => {
             const state = store.getState();
@@ -55,15 +55,15 @@ export const loginEpic = (action$, store) =>
         .pipe(
           switchMap((action) => {
             const hasSession = !!store.getState().login.session;
-            return of({type: 'SHOW_LOGIN', payload: !hasSession});
+            const actions = [of({type: 'SHOW_LOGIN', payload: !hasSession})];
+            if(!hasSession){
+              actions.push(of({type: 'SESSION_INVALID'}));
+            } 
+            return merge(...actions);
           })
         ),
       action$.ofType('NEW_SESSION')
         .pipe(
           switchMap((action) => of({type: 'LOAD_TIMETABLE_DATA'}))
-        ),
-      action$.ofType('SESSION_INVALID')
-        .pipe(
-          switchMap((action) => of({type: 'SHOW_LOGIN', payload: true}))
-        ),
+        )
     );

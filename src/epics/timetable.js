@@ -64,7 +64,8 @@ export const timetableEpic = (action$, store) =>
                 delete data[key];
               }
               data.events = events;
-              return of({type: 'TIMETABLE_DATA_LOADED', payload: {timestamp: new Date(), data: data}});
+              return merge(of({type: 'TIMETABLE_DATA_LOADED', payload: {timestamp: new Date(), data: data}}),
+                of({type: 'SESSION_VALID'}));
             }
           } else {
             // something went wrong

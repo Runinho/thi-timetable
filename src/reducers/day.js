@@ -46,7 +46,7 @@ function getEventsForDay(events, dateTime) {
   return uniqDayWithOverlapping;
 }
 
-export default (state={days: {}, currentDay: new Date(2018,4,2,12,20,5)}, action) => {
+export default (state={days: {}, currentDay: new Date(2018,5,11,12,20,5)}, action) => {
   switch(action.type){
     case 'INIT':
       break;

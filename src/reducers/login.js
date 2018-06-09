@@ -9,7 +9,6 @@ function loadUserFromLocalStorage() {
 }
 
 export default (state={session: loadSessionFromLocalStorage(), username: loadUserFromLocalStorage(), password: '', showLogin: true}, action) => {
-  console.log('dispatch action', action)
   switch(action.type){
     case 'SHOW_LOGIN':
       return {...state, showLogin:action.payload}

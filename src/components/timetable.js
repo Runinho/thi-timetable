@@ -6,7 +6,7 @@ import TimeAgo from 'react-timeago'
 
 function mapStateToProps(state) {
   return {
-    timestamp: state.data.data.timestamp,
+    timestamp: (state.data.data ? state.data.data.timestamp : null),
     date: state.day.currentDay,
     day: state.day.days[new Date(state.day.currentDay).setHours(0,0,0,0)]
   };
