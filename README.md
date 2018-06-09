@@ -3,6 +3,11 @@
 
 Progressiv Web App build with React providing the core functionality of the offical THI App, but **good**. 
 
+<p align="center">
+  <img height="400" src="https://i.imgur.com/gDa79SQ.png"><br/>
+  Overview page with a canceled class.
+</p>
+
 ## Goal
 The offical App is slow, unreliable and instable.
 Goal of this project is a fast, relibale and stable Progressiv Web App.
