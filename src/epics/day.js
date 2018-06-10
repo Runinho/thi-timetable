@@ -7,10 +7,10 @@ import querystring from 'querystring';
 
 export const dayEpic = (action$, store) =>
   merge(
-    action$.ofType('TIMETABLE_DATA_LOADED')
+    action$.ofType('CHANGE_VIEW_DATE')
       .pipe(
         switchMap((action) => {
-          return of({type: 'NOACTION'})
+          return of({type: 'VIEW_DATE_CHANGED', payload: store.getState().data.data})
         })
       ),
   );

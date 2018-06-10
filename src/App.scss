@@ -44,6 +44,7 @@ body{
 
 .timetable{
   position: relative;
+  float: left;
 }
 
 .day {
@@ -100,7 +101,7 @@ body{
   left: $colloumn-width-left;
   margin-left: 11px;
   margin-right: 7px;
-  width: calc(100% - #{$colloumn-width-left} - 7px);
+  width: calc(100% - #{$colloumn-width-left} - 11px);
 
   .course{
     position: absolute;
@@ -159,6 +160,7 @@ body{
 }
 
 .currentTime {
+  margin-top: $time-offset + 8px;
   position: absolute;
   width: 100%;
   
@@ -210,4 +212,19 @@ body{
 
 .doneIcon{
   fill:$lighter-grey;
+}
+
+.daysContainer{
+  position: absolute;
+  width: 100%;
+}
+.dayContainer{
+  position: absolute;
+  width: 100%;
+}
+.dayContainer.left {
+  left: -100%;
+}
+.dayContainer.right {
+  left: 100%;
 }

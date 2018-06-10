@@ -1,3 +1,5 @@
+import { getOtherDay } from "../helper/date";
+console.log('otherday',getOtherDay);
 /**
  * Wherever the both events take place to the same time.
  * 
@@ -46,24 +48,29 @@ function getEventsForDay(events, dateTime) {
   return uniqDayWithOverlapping;
 }
 
-export default (state={days: {}, currentDay: new Date(2018,5,11,12,20,5)}, action) => {
+export default (state={days: {}, currentDay: new Date(), viewDate: new Date().setHours(0,0,0,0)}, action) => {
+  let days = state.days;
   switch(action.type){
     case 'INIT':
       break;
-    case 'DATE_CHANGED':
-      const currentDay = new Date(state.currentDay).setHours(0,0,0,0);
-      if(days[currentDay.toString()] == null){
-        const day = getEventsForDay(action.payload.events, state.currentDay);
-        state.days[currentDay.toString()] = day;
+    case 'TIMETABLE_DATA_LOADED':
+      days = {}
+      // Do the same as date changed:
+    case 'VIEW_DATE_CHANGED':
+      console.log('action.payload:', action.payload);
+      const currentViewDay = state.viewDate;
+      const dayBefore = getOtherDay(currentViewDay, -1);
+      const dayAfter = getOtherDay(currentViewDay, 1);
+      console.log(currentViewDay, dayBefore, dayAfter);
+      for(let date of [currentViewDay, dayBefore, dayAfter]){
+        if(days[(+date).toString()] == null){
+          days[(+date).toString()] = getEventsForDay(action.payload.data.events, date);
+        }
       }
       return {...state, days: days};
       break;
-    case 'TIMETABLE_DATA_LOADED':
-      const currentDay2 = new Date(state.currentDay).setHours(0,0,0,0);
-      const day = getEventsForDay(action.payload.data.events, state.currentDay);
-      const days = {};
-      days[currentDay2.toString()] = day;
-      return {...state, days: days};
+    case 'CHANGE_VIEW_DATE':
+      return {...state, viewDate: action.payload};
     default: 
       return state
   }

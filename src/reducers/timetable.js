@@ -8,7 +8,7 @@ function loadDataFromLocalStorage() {
   return null;
 }
 
-export default (state={data: loadDataFromLocalStorage()}, action) => {
+export default (state={data: loadDataFromLocalStorage(), viewDate: new Date()}, action) => {
   switch(action.type){
     case 'INIT':
       break;
