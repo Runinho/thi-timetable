@@ -47,7 +47,7 @@ class Login extends Component {
         <div className="warning">
           <div className="warningText">
           Dies ist <b>keine</b> offizielle Webseite der
-          Teschnischen Hchschule Ingolstadt.
+          Technischen Hchschule Ingolstadt.
           Alle daten (inklusiv passörter) werden 
           unverschlüsselt an <a href={window.location.host}>{window.location.host}</a> gesedet.
           Mehr informationen findest du <a href="https://github.com/Runinho/thi-timetable/">hier</a>.
