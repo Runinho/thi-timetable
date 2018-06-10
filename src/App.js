@@ -3,21 +3,22 @@ import './App.scss';
 
 import store from './redux/configureStore';
 import {Provider} from 'react-redux';
-import Login from './components/login';
-import Timetable from './components/timetable';
+import Root from './components/root';
 
 class App extends Component {
   render() {
+    console.log('test reder');
     return (
-      <Provider store={store}>
-        <div className="App">
-          <div className="App-header">
-            <p className="Title">Stundenplan</p>
+      <div>
+        <Provider store={store}>
+          <div className="App">
+            <div className="App-header">
+              <p className="Title">THI-Stundenplan</p>
+            </div>
+            <Root></Root>
           </div>
-          <Login></Login>
-          <Timetable></Timetable>
-        </div>
-      </Provider>
+        </Provider>
+      </div>
     );
   }
 }

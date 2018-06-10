@@ -32,6 +32,23 @@ class Timetable extends Component {
     this.state = {viewDate: new Date(), currentSlideElement: 1};
   }
 
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown.bind(this), false);
+  }
+  
+  componentWillUnMount() {
+    document.removeEventListener('keydown', this.handleKeyDown.bind(this), false);
+  }
+  
+  handleKeyDown(event) {
+    if (event.keyCode == 39 /*right arrow*/) {
+      this.reactSwipe.next();
+    }
+    if (event.keyCode == 37 /*left arrow*/) {
+      this.reactSwipe.prev();
+    }
+  }
+
   slideChanged(index, elem){
     this.props.changeViewDate(getOtherDay(this.props.viewDate, index-1));
     this.setState({currentSlideElement: 1});
@@ -53,7 +70,7 @@ class Timetable extends Component {
             {this.state.shiftX}
           </div>
         </div>
-        <ReactSwipe key={JSON.stringify(days)} swipeOptions={{transitionEnd: this.slideChanged, startSlide: 1}}>
+        <ReactSwipe ref={reactSwipe => this.reactSwipe = reactSwipe} key={JSON.stringify(days)} swipeOptions={{transitionEnd: this.slideChanged, startSlide: 1}}>
           {days.map((day) => <Day currentDay={this.props.currentDay} key={day} date={+day} data={this.props.days[+day]}></Day>)}
         </ReactSwipe>
       </div>

@@ -19,7 +19,10 @@ $time-height: 60px;
 
 body{
   font-family: "Segoe UI",sans-serif;
+  font-size: 16px;
+  color: white;
   margin: 0px;
+  font-weight: 300;
   background-color: $background;
 }
 
@@ -227,4 +230,223 @@ body{
 }
 .dayContainer.right {
   left: 100%;
+}
+
+.warning{
+  color: white;
+  padding: 10px;
+  width: auto;
+  background-color: $lighter-grey;
+  border: #FAC863;
+  border-style: solid;
+  border-radius: 4px;
+  border-width: 1px;
+  margin-bottom: 20px;
+
+  a, a:visited {
+    color: $yellow;
+    white-space: nowrap;
+  }
+}
+
+.warningText{
+  padding-top: 0px;
+  line-height: 1.2;
+}
+
+.login{
+  padding: 20px 15px 0px 15px;
+
+  input {
+    margin-top: 10px;
+    width: 100%;
+    height: 40px;
+    background-color: $lighter-grey;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: $white;
+  }
+
+  button{
+    height: 40px;
+    font-size: 16px;
+    padding: 0px;
+    border: none;
+    transition: all 250ms ease-in-out;
+  }
+
+  button:disabled{
+    opacity: 0.5;
+  }
+
+  .actions{
+    margin-top: 10px;
+    display: flex;
+    align-content: stretch;
+    flex-direction: row;
+    justify-content: stretch;
+    width: 100%;
+
+    .action{
+      flex: 1 1 100px;
+    }
+
+    .main{
+      background-color: $cyan;
+      color: $white;
+      margin-left: 5px;
+    }
+
+    .sec{
+      background-color: transparent;
+      color: $white;
+      margin-right: 5px;
+      border: solid;
+      border-width: 1px;
+      border-color: $cyan;
+      color: $cyan;
+    }
+  }
+
+  input::placeholder{
+    font-size: 16px;
+    color: #A7A7A7;
+  }
+
+  .checkboxContainer{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: flex;
+
+    
+    input{
+      appearance: none;
+      flex: 0 0 auto;
+      padding: 0px;
+      margin:  5px;
+      margin-top: 0px;
+      margin-right: 20px;
+      width: 30px;
+      height: 30px;
+      position: relative;
+    }
+
+    input:checked {
+      background-color: $cyan;
+    }
+
+    input:after {
+      transition: 250ms ease-out;
+    }
+    input:before {
+      transition: 250ms ease-out;
+    }
+
+    $posLeft: 12px;
+    $posTop: 4px;
+    $color: #FFFFFF;
+    $width: 8px;
+    $height: 18px;
+    $borderWidth: 3px;
+    input:not(:checked):after {
+      content: "";
+      background-color: transparent;
+      
+      /* position the checkbox */
+      position: absolute;
+      left: $posLeft;
+      top: $posTop;
+    
+      /* setting the checkbox */
+        /* short arm */
+      width: $height;
+        /* long arm */
+      height: $height;
+      border-right: $borderWidth solid $color;
+      
+      /* rotate the mirrored L to make it a checkbox */
+      transform: translate(-10px, -3px) rotate(45deg);
+      box-sizing: border-box;
+    }
+    input:not(:checked):before {
+      content: "";
+      background-color: transparent;
+      
+      /* position the checkbox */
+      position: absolute;
+      left: $posLeft;
+      top: $posTop;
+    
+      /* setting the checkbox */
+        /* short arm */
+      width: $height;
+      border-bottom: $borderWidth solid $color;
+        /* long arm */
+      height: $height;
+      
+      /* rotate the mirrored L to make it a checkbox */
+      // height = width * a
+      transform:  translate(0px, -3px) rotate(45deg);
+      box-sizing: border-box;
+    }
+
+    input:checked:after {
+      content: "";
+      background-color: transparent;
+      
+      /* position the checkbox */
+      position: absolute;
+      left: $posLeft;
+      top: $posTop;
+    
+      /* setting the checkbox */
+        /* short arm */
+      width: $width;
+        /* long arm */
+      height: $height;
+      border-right: $borderWidth solid $color;
+      
+      /* rotate the mirrored L to make it a checkbox */
+      transform: rotate(40deg);
+      box-sizing: border-box;
+    }
+    input:checked:before {
+      content: "";
+      background-color: transparent;
+      
+      /* position the checkbox */
+      position: absolute;
+      left: $posLeft;
+      top: $posTop;
+    
+      /* setting the checkbox */
+        /* short arm */
+      width: $width;
+      border-bottom: $borderWidth solid $color;
+        /* long arm */
+      height: $height;
+      
+      /* rotate the mirrored L to make it a checkbox */
+      transform: rotate(40deg);
+      box-sizing: border-box;
+    }
+    
+    div {
+      flex: 1 1 auto;
+      b {
+        color: $yellow;
+      }
+    }
+  }
+}
+
+a, a:visited {
+  color: $cyan;
+}
+
+.created{
+  margin-top: 50px;
 }
