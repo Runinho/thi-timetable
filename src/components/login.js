@@ -18,7 +18,7 @@ function mapDispatchToProps(dispatch) {
   return {
     handleUsernameChange: (event) => dispatch({
       type : 'CHANGE_USERNAME',
-      payload: event.target.value
+      payload: event.target.value.toLowerCase()
     }),
     handePasswordChange: (event) => dispatch({
       type : 'CHANGE_PASSWORD',
