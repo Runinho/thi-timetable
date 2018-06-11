@@ -1,7 +1,8 @@
 # thi-timetable
 *This is not an **official** Project/App/Webseite of the Technical University Ingolstad (Technische Hochschule Ingolstadt).*
 
-Progressiv Web App build with React providing the core functionality of the offical THI App, but **good**. 
+Progressiv Web App build with React providing the core functionality of the offical THI App, but **good**.
+A Hosted version of this site can be found [here](thi-app.frohn.cologne).
 
 <p align="center">
   <img height="400" src="https://i.imgur.com/gDa79SQ.png"><br/>
@@ -26,4 +27,7 @@ npm install
 npm start
 ```
 
-The project was created with [create-react-app](https://github.com/facebook/create-react-app). The development server is used as proxy for request to https://www3.primuss.de/stpl.
+The project was created with [create-react-app](https://github.com/facebook/create-react-app).
+
+## Why does the Website have to send data to the server?
+Browsers does not allow Cross Origin Requests. Requests to [https://www3.primuss.de/stpl/login.php](https://www3.primuss.de/stpl/login.php) need to be proxyed or CORS localy enabled in the browser. For more information see: [developer.mozilla.org/en-US/docs/Web/HTTP/CORS](https://www3.primuss.de/stpl/login.php)
