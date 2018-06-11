@@ -3,7 +3,7 @@
 
 Progressiv Web App build with React providing the core functionality of the offical THI App, but **good**.
 
-A Hosted version of the site can be found [here](thi-app.frohn.cologne).
+A Hosted version of the site can be found [here](https://thi-app.frohn.cologne).
 
 <p align="center">
   <img height="400" src="https://i.imgur.com/gDa79SQ.png"><br/>
