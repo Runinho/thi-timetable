@@ -19,4 +19,8 @@ const store = createStore( combineReducers({login: loginReducer, data: timetable
 ));
 store.dispatch({type: 'INIT'});
 
+setInterval(function() {
+  store.dispatch({type: 'CURRENT_DATE_CHANGED'});
+}, 60000); // every minute
+
 export default store

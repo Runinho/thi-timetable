@@ -16,7 +16,7 @@ function sameDay(d1, d2) {
 const Day = (props) => {
   let currentTime = null;
   if(sameDay(new Date(props.currentDay), new Date(props.date))){
-    currentTime  = <div className="currentTime" style={{top: getPositon(props.currentDay)}}>
+    currentTime  = <div className="currentTime" style={{top:0, transform: 'translate(0px,' + getPositon(props.currentDay) + 'px)' }}>
                       <div className="line"></div>
                       <div className="point"></div>
                     </div>

@@ -69,6 +69,9 @@ export default (state={days: {}, currentDay: new Date(), viewDate: new Date().se
       }
       return {...state, days: days};
       break;
+    case 'CURRENT_DATE_CHANGED':
+      return {...state, currentDay: new Date()};
+      break;
     case 'CHANGE_VIEW_DATE':
       return {...state, viewDate: action.payload};
     default: 

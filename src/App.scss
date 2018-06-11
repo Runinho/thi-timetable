@@ -166,6 +166,7 @@ body{
   margin-top: $time-offset + 8px;
   position: absolute;
   width: 100%;
+  transition: transform 1s ease-out;
   
   .line{
     width: calc(100% - #{$colloumn-width-left * 0.9});
