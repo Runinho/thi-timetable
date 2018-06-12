@@ -16,7 +16,7 @@ function sameDay(d1, d2) {
 const Day = (props) => {
   let currentTime = null;
   if(sameDay(new Date(props.currentDay), new Date(props.date))){
-    currentTime  = <div className="currentTime" style={{top:0, transform: 'translate(0px,' + getPositon(props.currentDay) + 'px)' }}>
+    currentTime  = <div className="currentTime" style={{top:0, transform: 'translate(0px,' + getPositon(new Date(props.currentDay).getHours() * 60  + new Date(props.currentDay).getMinutes()) + 'px)' }}>
                       <div className="line"></div>
                       <div className="point"></div>
                     </div>
@@ -38,7 +38,7 @@ const Day = (props) => {
       </div>
       {currentTime}
       <div className="courseContainer">
-        {props.data && props.data.map((course) => <Course key={course[1]} data={course}></Course>)}
+        {props.data && props.data.map((course) => <Course key={[course.veranstaltung,course.von,course.bis].join('.')} data={course}></Course>)}
       </div>
     </div>
   );

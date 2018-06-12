@@ -1,18 +1,18 @@
 import React from 'react';
+import { getTimeFromString } from '../helper/date';
 
 // need to be the same in the scss file.
 const timeOffset = 75;
 const hourheight = 60;
 
-export function getPositon(time){
-  const dateTime = new Date(time)
-  const minutesIntoDay = dateTime.getHours() * 60 + dateTime.getMinutes();
+export function getPositon(minutesIntoDay){
   const dayOffset = 8 * 60;
   const positon = (minutesIntoDay - dayOffset) * (60/hourheight);
   return positon;
 }
 
 function getStyle(startTime, endTime, overlapping){
+  console.log('startTime', startTime);
   const start = getPositon(startTime);
   const end = getPositon(endTime);
   // TODO: Fix to work with more than 1 overlapping course
@@ -27,20 +27,20 @@ function getStyle(startTime, endTime, overlapping){
 
 const Course = (props) => {
   return (
-    <div className={"course " + (props.data[20].status ? 'canceled' : '') }  style={getStyle(props.data[2], props.data[3], props.data[23])}>
+    <div className={"course " + (false ? 'canceled' : '') }  style={getStyle(getTimeFromString(props.data.von), getTimeFromString(props.data.bis), props.data.overlapping)}>
       <div className="firstLine">
         <div className="title">
-          {props.data[20].fach_kurzform}
+          {props.data.veranstaltung}
         </div>
         <div className="location">
-          {props.data[22]}
+          {props.data.raum}
         </div>
       </div>
       <div className="time">
-        {props.data[20].zeitvon} - {props.data[20].zeitbis}
+        {props.data.von.substr(0,5)} - {props.data.bis.substr(0,5)}
       </div>
       <div className="description">
-        {props.data[20].fach_name + ' ' +props.data[12]}
+        {props.data.fach + ' bei ' +props.data.dozent}
       </div>
     </div>
   );

@@ -73,6 +73,14 @@
       },
       "changeOrigin": true,
       "logLevel": "debug"
+    },
+    "/hiapi": {
+      "target": "https://hiplan.thi.de/webservice/production2/index.php",
+      "pathRewrite": {
+        "^/hiapi": ""
+      },
+      "changeOrigin": true,
+      "logLevel": "debug"
     }
   },
   "devDependencies": {

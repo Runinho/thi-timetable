@@ -29,7 +29,7 @@ export const timetableEpic = (action$, store) =>
     action$.ofType('LOAD_TIMETABLE_DATA')
       .pipe(
         switchMap((action) => {
-          console.log('Try login with data:', action.payload);
+          console.log('Try get data with data:', action.payload);
           //TODO: read this string out of the data on login. sem might change...
           const state = store.getState();
           const session = state.login.session;
@@ -38,32 +38,29 @@ export const timetableEpic = (action$, store) =>
           const date = (currentDate.getMonth() + 1).toString().padStart(2, "0") + 
             "/" +  currentDate.getDate().toString().padStart(2, "0") +
             "/" +  currentDate.getFullYear();
-          return from(Axios.post('primuss/index.php?FH=fhin&Language=&sem=34&method=list', 
+          
+          return from(Axios.post('hiapi', 
           querystring.stringify({
-            showdate: date,
-            viewtype:'week',
-            timezone:'2',
-            Session:session,
-            User:user,
-            mode:'calendar',
+            service: 'thiapp',
+            method:'stpl',
+            format:'json',
+            session:session,
+            month: currentDate.getMonth() + 1,
+            day: currentDate.getDate().toString().padStart(2, "0"),
+            year: currentDate.getFullYear(),
+            details:'0',
           })))
         }),
         switchMap((result) => {
           console.log(result);
           if(result.status === 200){
-            if(result.request.responseURL.toString().includes('login.php?')){
+            console.log('result.data.data ', result.data.data )
+            if(result.data.data === "No Session"){
               // need new session.
               return of({type: 'SESSION_INVALID'});
             }else{
               // merge events
               const data = result.data;
-              const events = [];
-              for(let key of Object.keys(data).filter((key) => key.startsWith('events'))){
-                console.log(key);
-                events.push(...data[key]);
-                delete data[key];
-              }
-              data.events = events;
               return merge(of({type: 'TIMETABLE_DATA_LOADED', payload: {timestamp: new Date(), data: data}}),
                 of({type: 'SESSION_VALID'}));
             }

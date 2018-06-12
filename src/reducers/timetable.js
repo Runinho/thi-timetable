@@ -1,6 +1,7 @@
 function loadDataFromLocalStorage() {
   try{
-    return JSON.parse(localStorage.getItem('data'));
+    const obj = JSON.parse(localStorage.getItem('data'));
+    return (obj.data.dozenten ? null : obj);
   } catch (e){
     localStorage.setItem('data', null);
     console.log(e);

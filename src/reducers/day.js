@@ -1,4 +1,5 @@
-import { getOtherDay } from "../helper/date";
+import { getOtherDay, getTimeFromString } from "../helper/date";
+import { getPortPromise } from "portfinder";
 console.log('otherday',getOtherDay);
 /**
  * Wherever the both events take place to the same time.
@@ -7,31 +8,35 @@ console.log('otherday',getOtherDay);
  * @param {event} b 
  */
 export function isOverlapping(a, b){
-  return (a[3] > b[2] && a[2] < b[3]) || (a[2] > b[2] && a[3] < b[3]) || (b[2] > a[2] && b[3] < a[3]);
+  const b_von = getTimeFromString(b.von);
+  const b_bis = getTimeFromString(b.bis);
+  const a_von = getTimeFromString(a.von);
+  const a_bis = getTimeFromString(a.bis);
+  return (a_bis > b_von && a_von < b_bis) || (a_von > b_von && a_bis < b_bis) || (b_von > a_von && b_bis < a_bis);
 }
 
-function getEventsForDay(events, dateTime) {
-  const currentDay = new Date(dateTime).setHours(0,0,0,0);
-  const currentDayEnd = new Date(currentDay).setHours(24,0,0,0);
-  
-  console.log(new Date(currentDay).toDateString(), new Date(currentDayEnd).toDateString());
-  const day = events.filter((event) => {
-    return (new Date(event[2]) > currentDay && new Date(event[3]) < currentDayEnd)
-  })
-  // filter for identical string.
-  // TODO: why is the data duplicated in the first place?
-  const uniqDay = day.reduce((a,b) => {
-    if(a.findIndex((c) => c[1] == b[1])<0){
-        a.push(b)
-      }
-      return a;
-    },[])
-  uniqDay.sort((b, a) => (new Date(a[3]) - new Date(a[2])) - (new Date(b[3]) - new Date(b[2])));
-  console.log('unsort:', uniqDay);
+function formatDate(date) {
+  let d = new Date(date);
+  let month = '' + (d.getMonth() + 1);
+  let day = '' + d.getDate();
+  let year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
+function getEventsForDay(data, dateTime) {
+  const date = formatDate(dateTime);
+  console.log('formated data',date);
+  const day = data.filter((d) => d.datum === date);
+  console.log('filter:', day);
+  day.sort((a, b) => (getTimeFromString(a.von) - getTimeFromString(b.von)));
   // calculate overlapping
-  const uniqDayWithOverlapping = uniqDay.map((event, index_a) => {
+  const dayWithOverlapping = day.map((event, index_a) => {
     // find overlapping
-    const overlapping = uniqDay.reduce((acc, current, index_b) => {
+    const overlapping = day.reduce((acc, current, index_b) => {
       if (index_a !== index_b && isOverlapping(event, current)){
         if(index_b > index_a){
           acc.after += 1;
@@ -41,11 +46,11 @@ function getEventsForDay(events, dateTime) {
       }
       return acc;
     }, {before: 0, after:0})
-    event[23] = overlapping;
+    event.overlapping = overlapping;
     return event;
   })
-  console.log(uniqDayWithOverlapping);
-  return uniqDayWithOverlapping;
+  console.log(dayWithOverlapping);
+  return dayWithOverlapping;
 }
 
 export default (state={days: {}, currentDay: new Date(), viewDate: new Date().setHours(0,0,0,0)}, action) => {
@@ -64,7 +69,7 @@ export default (state={days: {}, currentDay: new Date(), viewDate: new Date().se
       console.log(currentViewDay, dayBefore, dayAfter);
       for(let date of [currentViewDay, dayBefore, dayAfter]){
         if(days[(+date).toString()] == null){
-          days[(+date).toString()] = getEventsForDay(action.payload.data.events, date);
+          days[(+date).toString()] = getEventsForDay(action.payload.data.data[3], date);
         }
       }
       return {...state, days: days};

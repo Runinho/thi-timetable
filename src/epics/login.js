@@ -18,30 +18,25 @@ export const loginEpic = (action$, store) =>
       action$.ofType('GET_SESSION')
       .pipe(
         switchMap((action) => {
-          console.log('Try login with data:', action.payload);
+          console.log('Try login');
           return zip(
-            from(Axios.post('primuss/login.php', 
+            from(Axios.post('hiapi', 
               querystring.stringify({
-                user:action.payload.username,
-                pwd:action.payload.password,
-                mode:'login',
-                FH:'fhin',
-                lang:'de',
-                submitLogin:'Anmelden',
+                username:action.payload.username,
+                passwd:action.payload.password,
+                service:'session',
+                method:'open',
+                format:'json'
               }))),
               of(action.payload.username));
         }),
         switchMap(([result, user]) => {
-          console.log(result);
+          console.log('res:',result);
           if(result.status === 200){
-            // extract session id
-            const regex = /<input type="hidden" id="session" name="Session" value="(.*)" \/>/g
-            const match = regex.exec(result.data);
-            if(match && match.length > 1 && match[1] != null && match[1].length > 0){
-              console.log('session', match[1]);
-              return of({type: 'NEW_SESSION', payload: {session: match[1], user: user}});
+            if(result.data.data && result.data.data != "Wrong credentials"){
+              return of({type: 'NEW_SESSION', payload: {session: result.data.data[0], user: result.data.data[1]}});
             } else {
-              return of({type: 'GET_SESSION_ERROR', payload: 'couldn\' t extract session. Username and Password right?'});
+              return of({type: 'GET_SESSION_ERROR', payload: 'couldn\' t extract session. Username and Password wrong'});
             }
           }else{
             // something went wrong
