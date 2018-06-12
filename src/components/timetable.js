@@ -6,6 +6,7 @@ import TimeAgo from 'react-timeago';
 import {Motion, spring} from 'react-motion';
 import { getOtherDay } from '../helper/date';
 import ReactSwipe from 'react-swipe';
+import Notifications from './notifications';
 
 function mapStateToProps(state) {
   return {
@@ -80,13 +81,7 @@ class Timetable extends Component {
     return (
       <div>
         <Status></Status>
-        <div className="informationContainer">
-          <div className="information">
-            Last updated: <TimeAgo date={this.props.timestamp} minPeriod="5"/>
-            {this.state.startX}
-            {this.state.shiftX}
-          </div>
-        </div>
+        <Notifications/>
         <ReactSwipe ref={reactSwipe => this.reactSwipe = reactSwipe} key={JSON.stringify(days)} swipeOptions={{callback:this.swiped, transitionEnd: this.slideChanged, startSlide: 1}}>
           {days.map((day) => <Day currentDay={this.props.currentDay} key={day} date={+day} data={this.props.days[+day]}></Day>)}
         </ReactSwipe>

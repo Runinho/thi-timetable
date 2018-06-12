@@ -1,7 +1,7 @@
 function loadDataFromLocalStorage() {
   try{
     const obj = JSON.parse(localStorage.getItem('data'));
-    return (obj.data.dozenten ? null : obj);
+    return (obj.data.dozenten || obj.data.data === "Session is over" ? null : obj);
   } catch (e){
     localStorage.setItem('data', null);
     console.log(e);
