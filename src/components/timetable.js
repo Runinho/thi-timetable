@@ -81,12 +81,12 @@ class Timetable extends Component {
       <div>
         <Status></Status>
         <div className="informationContainer">
--          <div className="information">
--            Last updated: <TimeAgo date={this.props.timestamp} minPeriod="5"/>
--            {this.state.startX}
--            {this.state.shiftX}
--          </div>
--        </div>
+          <div className="information">
+            Last updated: <TimeAgo date={this.props.timestamp} minPeriod="5"/>
+            {this.state.startX}
+            {this.state.shiftX}
+          </div>
+        </div>
         <ReactSwipe ref={reactSwipe => this.reactSwipe = reactSwipe} key={JSON.stringify(days)} swipeOptions={{callback:this.swiped, transitionEnd: this.slideChanged, startSlide: 1}}>
           {days.map((day) => <Day currentDay={this.props.currentDay} key={day} date={+day} data={this.props.days[+day]}></Day>)}
         </ReactSwipe>
