@@ -12,7 +12,6 @@ export function getPositon(minutesIntoDay){
 }
 
 function getStyle(startTime, endTime, overlapping){
-  console.log('startTime', startTime);
   const start = getPositon(startTime);
   const end = getPositon(endTime);
   // TODO: Fix to work with more than 1 overlapping course

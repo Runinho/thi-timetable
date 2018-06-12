@@ -25,11 +25,16 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
+function modulo(a,n){
+  return ((a%n)+n)%n;
+}
+
 class Timetable extends Component {
   constructor(props){
     super(props)
     this.slideChanged = this.slideChanged.bind(this);
-    this.state = {viewDate: new Date(), currentSlideElement: 1};
+    this.swiped = this.swiped.bind(this);
+    this.state = {viewDate: new Date(), pos: 1, currentSlideElement: 1};
   }
 
   componentDidMount() {
@@ -50,9 +55,21 @@ class Timetable extends Component {
   }
 
   slideChanged(index, elem){
-    this.props.changeViewDate(getOtherDay(this.props.viewDate, index-1));
-    this.setState({currentSlideElement: 1});
+    console.log('moved by days:', this.state.pos-1);
+    this.props.changeViewDate(getOtherDay(this.props.viewDate, this.state.pos-1));
+    this.setState({currentSlideElement: 1, pos: 1});
     console.log('slide!:',index, elem);
+  }
+
+  swiped(index, elem){
+    this.setState((prevState) => {
+      const modPos = modulo(prevState.pos , 3);
+      const direction = ((modPos < index && !(modPos === 0 && index === 2)) 
+                   || (modPos === 2 && index === 0) ? 1 : -1)
+
+      console.log('direction:', direction, prevState.pos, modPos, index);
+      return {pos: (prevState.pos + direction)}
+      });
   }
 
   render() {
@@ -70,7 +87,7 @@ class Timetable extends Component {
             {this.state.shiftX}
           </div>
         </div>
-        <ReactSwipe ref={reactSwipe => this.reactSwipe = reactSwipe} key={JSON.stringify(days)} swipeOptions={{transitionEnd: this.slideChanged, startSlide: 1}}>
+        <ReactSwipe ref={reactSwipe => this.reactSwipe = reactSwipe} key={JSON.stringify(days)} swipeOptions={{callback:this.swiped, transitionEnd: this.slideChanged, startSlide: 1}}>
           {days.map((day) => <Day currentDay={this.props.currentDay} key={day} date={+day} data={this.props.days[+day]}></Day>)}
         </ReactSwipe>
       </div>

@@ -29,9 +29,7 @@ function formatDate(date) {
 
 function getEventsForDay(data, dateTime) {
   const date = formatDate(dateTime);
-  console.log('formated data',date);
   const day = data.filter((d) => d.datum === date);
-  console.log('filter:', day);
   day.sort((a, b) => (getTimeFromString(a.von) - getTimeFromString(b.von)));
   // calculate overlapping
   const dayWithOverlapping = day.map((event, index_a) => {
